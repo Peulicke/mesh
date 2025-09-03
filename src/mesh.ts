@@ -1,4 +1,5 @@
 import { orient, vec3 } from "@peulicke/geometry";
+import { applyTransformation, type Transformation } from "@peulicke/geometry/transformation";
 
 export type Mesh = {
     points: vec3.Vec3[];
@@ -26,6 +27,12 @@ export const mergeMeshes = (meshes: Mesh[]): Mesh => {
     });
     return result;
 };
+
+export const transformMesh = (mesh: Mesh, t: Transformation): Mesh => ({
+    points: mesh.points.map(p => applyTransformation(p, t)),
+    faces: mesh.faces,
+    colors: mesh.colors
+});
 
 export const moveMesh = (mesh: Mesh, pos: vec3.Vec3): Mesh => ({
     points: mesh.points.map(p => vec3.add(pos, p)),
